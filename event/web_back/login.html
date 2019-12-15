@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script src='js/jquery-1.12.4.min.js'></script>
+
 </head>
 
 <body>
@@ -32,6 +32,8 @@
         </div>
 
     </div>
+    <script src='./config/config.js'></script>
+    <script src='js/jquery-1.12.4.min.js'></script>
     <script>
         // 注册点击事件，先要检测下用户输入是否合法，合法后再向服务器提交
         // 所以把submit按钮改为button，减少服务器压力
@@ -49,7 +51,7 @@
 
             $.ajax({
                 type: 'post',
-                url: 'http://localhost:8000/admin/login',
+                url: LOGIN,
                 data: {
                     user_name: username,
                     password: password
