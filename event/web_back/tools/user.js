@@ -1,6 +1,7 @@
 // 使用user.js 方便后期维护代码，使用ajax的部分
 
 var user = {
+    // 登录
     login: function (options) {
         $.ajax({
             type: 'post',
@@ -19,5 +20,30 @@ var user = {
                 }
             }
         });
+    },
+
+    // 登出
+    logout: function (options) {
+        $.ajax({
+            type: 'post',
+            url: LOGOUT,
+            success: function (res) {
+                console.log(res);
+
+                if (res.code === 200) {
+                    // 退出成功
+                    options.success();
+
+                }
+                else {
+                    options.fail();
+                }
+            }
+        });
     }
+
+
+
+
+
 };
