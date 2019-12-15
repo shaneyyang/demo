@@ -47,30 +47,27 @@
                 return;
             }
             // 输入信息后
-
-
-
-            $.ajax({
-                type: 'post',
-                url: LOGIN,
+            user.login({
                 data: {
                     user_name: username,
                     password: password
+
                 },
-                success: function (res) {
-                    console.log(res);
-                    if (res.code == 200) {
-                        location.href = './index.html';
+                success: function () {
+                    location.href = './index.html';
+                },
 
-
-                    }
-                    else {
-                        alert('用户名或密码错误u');
-                    }
-                    console.log(res);
-
+                fail: function () {
+                    alert('用户名或密码错误u');
                 }
+
+
+
+
             });
+
+
+
 
         });
 
