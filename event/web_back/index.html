@@ -135,6 +135,24 @@
             }
 
         });
+
+        // 用户登录后，获取用户名和图片
+        user.getUser({
+            success: function (res) {
+
+                $('.user_info img,.user_center_link img').prop('src', res.user_pic);
+
+                $('.user_info span').html('欢迎  ' + res.nickname);
+            }
+        });
+
+
+
+
+
+
+
+
     </script>
 </body>
 
