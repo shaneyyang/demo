@@ -79,7 +79,8 @@
                 },
 
                 fail: function () {
-                    alert('用户名或密码错误u');
+                    $('#myModal').modal('show').find('.modal-body').text('用户名或密码错误!~');
+
                 }
 
             });
