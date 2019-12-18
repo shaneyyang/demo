@@ -22,19 +22,24 @@
             <div class="row opt_btns">
                 <div class="col-xs-6">
                     <form class="form-inline">
+                        <!--------------------------- 下拉菜单结构 ---------------------------->
+
                         <select id="selCategory" name="" class="form-control input-sm">
-                            <option>所有分类</option>
-                            <option>未分类</option>
-                            <option>奇趣事</option>
-                            <option>会生活</option>
-                            <option>爱旅行</option>
+                            <option value="">所有分类</option>
+                            <!-- <option value="1">未分类</option>
+                            <option value="2">奇趣事</option>
+                            <option value="3">会生活</option>
+                            <option value="4">爱旅行</option> -->
                         </select>
+                        <!--------------------------- 状态菜单结构 ----------------->
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <!-- <button id="btnSearch" class="btn btn-default btn-sm">筛选</button> -->
+                        <!-- 这样就阻止了默认跳转行为 -->
+                        <button id="btnSearch" type="button" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -53,12 +58,12 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbody">
 
 
 
-                    <tr>
-                        
+                    <!-- <tr>
+
                         <td>王积千造统最头</td>
                         <td>杰克</td>
                         <td>奇趣事</td>
@@ -77,7 +82,7 @@
 
 
                     <tr>
-                     
+
                         <td>级电使正回</td>
                         <td>肉丝</td>
                         <td>爱旅行</td>
@@ -96,7 +101,7 @@
 
 
                     <tr>
-                       
+
                         <td>近难领管年算</td>
                         <td>杰克</td>
                         <td>会生活</td>
@@ -115,7 +120,7 @@
 
 
                     <tr>
-                       
+
                         <td>龙大实究</td>
                         <td>杰克</td>
                         <td>未分类</td>
@@ -134,7 +139,7 @@
 
 
                     <tr>
-                      
+
                         <td>算性得走来拉</td>
                         <td>肉丝</td>
                         <td>奇趣事</td>
@@ -153,7 +158,7 @@
 
 
                     <tr>
-                      
+
                         <td>几平会出气</td>
                         <td>管理员</td>
                         <td>奇趣事</td>
@@ -172,7 +177,7 @@
 
 
                     <tr>
-                      
+
                         <td>世团先证型角</td>
                         <td>杰克</td>
                         <td>奇趣事</td>
@@ -191,7 +196,7 @@
 
 
                     <tr>
-                      
+
                         <td>构更反步五</td>
                         <td>肉丝</td>
                         <td>奇趣事</td>
@@ -210,7 +215,7 @@
 
 
                     <tr>
-                       
+
                         <td>组方些</td>
                         <td>肉丝</td>
                         <td>会生活</td>
@@ -229,7 +234,7 @@
 
 
                     <tr>
-                      
+
                         <td>日做发光成</td>
                         <td>管理员</td>
                         <td>爱旅行</td>
@@ -244,35 +249,175 @@
                             <a href="javascript:deleteTr( 995 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
-
+ -->
 
                 </tbody>
             </table>
 
+
+            <!-- 分页结构 -->
             <div class="row text-center">
-            <ul class="pagination pagination-sm">
-                <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
-                <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                <li class="page-item"><a href="#" class="page-link">6</a></li>
-                <li class="page-item"><a href="#" class="page-link">7</a></li>
-                <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-            </ul>
-        </div>
+                <ul class="pagination pagination-sm" id="list">
+                    <!-- <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                    <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">6</a></li>
+                    <li class="page-item"><a href="#" class="page-link">7</a></li>
+                    <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li> -->
+                </ul>
+            </div>
 
         </div>
     </div>
 
     <script>
         // 设置左侧菜单
-        $('#release_btn').click(function(){
-            window.parent.setMenu(1,1);
+        $('#release_btn').click(function () {
+            window.parent.setMenu(1, 1);
         })
+    </script>
+    <!-- js生成展示模板 -->
+    <script type='text/template' id="article">
+        {{each data val}}
+
+        <tr>
+
+            <td>{{val.title}}</td>
+            <td>{{val.author}}</td>
+            <td>{{val.type}}</td>
+            <td class="text-center">{{val.date}}</td>
+
+
+            <td class="text-center">{{val.state}}</td>
+
+
+            <td class="text-center">
+                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 1004 );" class="btn btn-danger btn-xs">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <!-- js设置分类下拉菜单模板 -->
+    <script type="text/template" id="category">
+        {{each data val}}
+        <option value="{{val.id}}">{{val.name}}</option>
+        {{/each}}
+
+    
+    </script>
+
+    <script src='./js/template-web.js'></script>
+    <script src='./js/jquery.twbsPagination.js'></script>
+    <script src="tools/article.js"></script>
+    <script src="./tools/config.js"></script>
+
+    <script>
+        // 文章信息展示
+        // -请求接口
+        // -设置模板，生成结构
+        // 封装函数
+
+
+
+        getArticle();
+
+
+
+        // 文章信息分页展示
+        // 文章信息筛选
+        // 引入模板
+        // 定义全局变量，用来记录当前展示的页码
+        var page = 1;
+
+        // 分页的父元素
+        var $list = $('#list');
+
+        // 用来记录上一次的总页数
+        var lastTotalPage = 0;
+
+        function getArticle() {
+            $.ajax({
+                url: 'http://localhost:8000/admin/search',
+                // get请求的参数是当前的页码
+                data: {
+                    page: page,
+                    type: $('#selCategory').val(),
+                    state: $('#selStatus').val()
+                },
+                success: function (res) {
+                    if (res.code === 200) {
+                        // console.log(res);
+
+                        // 设置模板
+                        var htmlStr = template('article', res);
+                        // 生成页面结构
+                        $('#tbody').html(htmlStr);
+                        // 获取到的res中存在totalPage的属性，
+                        var totalPage = res.totalPage;
+                        // 如果进行了筛选，需要将旧的分页结构删除，而新的变量名还没有添加，所以需要去定义一个全局变量
+                        // $pagination.twbsPagination('destroy');
+                        if (totalPage === lastTotalPage) {
+                            return;
+                        }
+                        lastTotalPage = totalPage;
+                        $list.twbsPagination('destroy');
+                        // 执行这句之后，请求陷入了死循环：原因是引入的插件中，有一个默认的初始化功能，该功能会默认进行点击页码1，在重建页数的时候，会触发初始化功能，然后又进行重建，不停地重建，陷入死循环。所以在执行这句代码前进行判断，判断总页数如果与上次相同，就不需要创建了
+
+                        // 进行分页结构的创建操作，找到html结构中的位置
+                        // $('#list').twbsPagination({
+                        $list.twbsPagination({
+                            totalPages: totalPage,
+                            visiblePages: 5,
+                            first: '首页',
+                            prev: '上一页',
+                            next: '下一页',
+                            last: '尾页',
+                            // 点击页码按钮后，将页码发送给接口，请求数据
+                            // 引入的插件中有此项功能，点击页码，显示currentPage
+                            onPageClick: function (e, currentPage) {
+                                // console.log(currentPage);
+
+                                page = currentPage;
+                                getArticle();
+                            }
+                        })
+
+                    }
+                }
+            });
+
+        }
+
+
+        // 筛选
+        // 1.修改下拉菜单结构---->需要到js中创建
+        // 2.修改状态菜单结构--->在结构中修改，不需要创建，因为草稿和已发布两个状态是固定的
+
+
+        // 创建下拉菜单结构
+        article.getCate({
+            success: function (res) {
+                // 创建下拉菜单结构
+                var optHtml = template('category', res);
+                $('#selCategory').append(optHtml);
+            }
+        });
+
+        $('#btnSearch').on('click', function () {
+            getArticle();
+
+            $('.first').click();
+
+        })
+
+
     </script>
 
 </body>
