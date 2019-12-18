@@ -25,26 +25,27 @@
         <div class="container-fluid common_con">
             <form class="form-horizontal article_form">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
+                    <label for="aTitle" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input type="email" class="form-control" id="aTitle" placeholder="文章标题" name="title">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
+                    <label for="aCover" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" id="aCover" name="cover">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
+                        <!-- 需要生成的地方 -->
+                        <select class="form-control" id="leibie" name="type">
+                            <!-- <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
-                            <option>5</option>
+                            <option>5</option> -->
                         </select>
                     </div>
                 </div>
@@ -53,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput" name="date">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -65,20 +66,115 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
+                        <textarea class="form-control" id="rich_content" placeholder="文章内容">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
                             </textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
-                        <button type="submit" class="btn btn-default">存为草稿</button>
+                        <!-- <button type="submit" class="btn btn-success">发布</button> -->
+                        <!-- 设置为普通按钮 -->
+                        <button type="button" class="btn btn-success" id="fabubtn">发布</button>
+                        <!-- <button type="submit" class="btn btn-default">存为草稿</button> -->
+                        <button type="button" class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <!-- ------------------------------------------------- -->
+
+
+    <!-- 引入js生成option -->
+    <script type="text/template" id="jsleibie">
+        {{each data val}}
+        <option value="{{val.id}}">{{val.name}}</option>
+        {{/each}}
+
+
+    </script>
+
+
+
+
+
+    <!-- 引入js -->
+    <script src="./js/template-web.js"></script>
+    <script src="tools/article.js"></script>
+
+    <script>
+        // 1-获取服务器数据，创建类别选项
+        article.getCate({
+            success: function (res) {
+                // 获取类别
+                var htmlStr = template('jsleibie', res);
+
+                // 生成到结构中
+                $('#leibie').html(htmlStr);
+            }
+        });
+        // 点击发布按钮
+        $('#fabubtn').on('click', function () {
+            // 检测是否为空
+            var aTitle = $('#aTitle').val();
+            var aCover = $('#aCover').val();
+            var leibie = $('#leibie').val();
+            var dateinput = $('#dateinput').val();
+            var rich_content = $('#rich_content').val();
+
+            if (
+                aTitle == '' ||
+                aCover == '' ||
+                leibie == '' ||
+                dateinput == '' ||
+                rich_content == ''
+            ) {
+                alert('请填写完整');
+            }
+
+            // 提交表单内容
+            // 套用FormData
+            // 此处是DOM写法，需要将jQuery写法进行DOM转换
+            var fd = new FormData($('form')[0]);
+
+            // 把content和state放到需要提交的内容
+            fd.append('content', tinymce.activeEditor.getContent());
+            fd.append('state', '已发布');
+
+            // 发送请求
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8000/admin/article_publish',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.code === 201) {
+                        location.href = './article_list.html';
+                    }
+                    else {
+                        alert('try later...');
+                    }
+                }
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+    </script>
 
 </body>
 
