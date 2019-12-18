@@ -38,13 +38,14 @@
                     <li><a href="#">公 司</a></li>
                 </ul>
             </div>
-            <ul class="left_menu fl">
-                <li><a href="#">最 新</a></li>
+            <ul class="left_menu fl" id="headNav">
+                <!-- 获取数据生成 -->
+                <!-- <li><a href="#">最 新</a></li>
                 <li><a href="#">科 技</a></li>
                 <li><a href="#">股 市</a></li>
                 <li><a href="#">商 品</a></li>
                 <li><a href="#">外 汇</a></li>
-                <li><a href="#">公 司</a></li>
+                <li><a href="#">公 司</a></li> -->
             </ul>
             <ul class="right_menu fr">
                 <li><a href="#">科技专题</a></li>
@@ -55,8 +56,8 @@
 
     <div class="main_con clearfix">
         <div class="left_con">
-            <ul class="focus_list">
-                <li class="first">
+            <ul class="focus_list" id="newsDisplay">
+                <!-- <li class="first">
                     <a href="#"><img src="images/pic01.jpg" alt=""></a>
                     <p>图片说明</p>
                 </li>
@@ -75,7 +76,7 @@
                 <li>
                     <a href="#"><img src="images/pic06.jpg" alt=""></a>
                     <p>图片说明</p>
-                </li>
+                </li> -->
             </ul>
 
             <div class="common_title">
@@ -215,12 +216,75 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
+    <!-- --------------------------------------------------------------- -->
+    <!-- 引入JS -->
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/axios.js"></script>
+    <!-- 引入模板js -->
+    <script src="./js/template-web.js"></script>
+
+    <!-- 自定义展示文章模板 -->
+    <script type="text/template" id="newsDis">
+        {{each data val i}}
+        
+        <li {{if i===0}} class="first" {{/if}}>
+            <a href="#"><img src="{{val.cover}}" alt=""></a>
+            <p>{{val.title}}</p>
+        </li>
+        {{/each}}
+    </script>
+
+    <!-- 自定义展示导航文章类别模板 -->
+    <script type="text/template" id="navDis">
+        {{each data val}}
+
+        <li><a href="list.html?id={{val.id}}">{{val.name}}</a></li>
+        {{/each}}
+    </script>
+    <script>
+        // 获取文章数据，展示到页面上
+        axios.get('http://localhost:8000/admin/search', {
+            params: {
+                perpage: 5
+            }
+        })
+            .then(function (res) {
+                // axios获取的res与jQuery获取的结果不同，下面的写法相当于jQuery获取的res
+                res = res.data
+                // console.log(res);
+
+                if (res.code === 200) {
+                    // 创建结构
+                    var htmlStr = template('newsDis', res);
+                    // 添加到页面上
+                    $('#newsDisplay').html(htmlStr);
+                }
+            });
+
+        // 获取文章类别，展示到导航栏上
+
+        axios({
+            method: 'GET',
+            url: 'http://localhost:8000/admin/category_search'
+        }).then(function (res) {
+            res = res.data;
+            if (res.code === 200) {
+                // 创建结构
+                var htmlStr = template('navDis', res);
+                // 添加到页面上
+                $('#headNav').html(htmlStr);
+
+                // 在模板中，在跳转地址最后通过?id=的方式设置分类id
+                // 在list页面就可以获取id的值，进行对应分类的文章请求
+            }
+        });
+    </script>
 </body>
 
 </html>

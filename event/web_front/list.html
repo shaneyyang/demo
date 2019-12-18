@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/jquery.pagination.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.pagination.min.js"></script>
+    <script type="text/javascript" src="js/jquery.pagination.min.js"></script>
 </head>
 
 <body>
@@ -59,11 +59,11 @@
     <div class="main_con clearfix">
         <div class="left_con setfr">
 
-            <div class="list_title">
+            <div class="list_title" id="title">
                 <h3>科 技</h3>
             </div>
 
-            <div class="common_news_list">
+            <!-- <div class="common_news_list">
                 <a href="#" class="list_pic"><img src="images/pic09.jpg" alt=""></a>
                 <h4><a href="#">亚马逊金融试水中国？背后却是和华尔街的“金融战争” </a></h4>
                 <p>亚马逊抛弃了中国的买家们，却难以割舍庞大的卖家市场，有消息指出亚马逊中国将针对中国庞大的卖家群体推出一项贷款推荐计划。在连续对印度、墨西哥等新兴市场大力推广线上支付服务后，亚马逊金融试水进军中国市场的信号终于被放出。
@@ -133,15 +133,15 @@
                         )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( 10 )</span>
                     <b>发布于 2018-08-30 12:18:58</b>
                 </div>
-            </div>
+            </div> -->
 
             <div id="pagination" class="page"></div>
             <script>
-                $(function() {
+                $(function () {
                     $("#pagination").pagination({
                         currentPage: 2,
-                        totalPage:8,
-                        callback: function(current) {
+                        totalPage: 8,
+                        callback: function (current) {
                             alert('ok!');
                         }
                     });
@@ -220,12 +220,69 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
+    <!-- ---------------------------------------------------------- -->
 
+    <!-- 生成html结构 -->
+    <script type="text/template" id="newsDis">
+        {{each data val}}
+        <div class="common_news_list">
+            <a href="#" class="list_pic"><img src="{{val.cover}}" alt=""></a>
+            <h4><a href="#">{{val.title}}</a></h4>
+            <p>{{@val.content}}</p>
+            <div class="new_info">
+                <span>标签：{{val.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{val.read}}
+                    )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( {{val.comment}} )</span>
+                <b>发布于 {{val.date}}</b>
+            </div>
+        </div>
+        {{/each}}
+
+    </script>
+
+
+
+    <!-- 引入JS模板 -->
+    <script src="js/template-web.js"></script>
+    <!-- 引入axios -->
+    <script src="js/axios.js"></script>
+
+    <script>
+        // 通过发送id获取新闻类别，在上一个页面，点击类别后，跳转到id为类别的地址，这个地址中的id如何获取？
+        var leibieStr = location.search.split('=');
+        // console.log(id);
+        var id = leibieStr[1];
+        console.log(id);
+
+        // 进行检测，如果没有找到id，则跳转回主页
+        if (!id) {
+            location.href = 'index.html';
+        }
+
+
+        axios({
+            method: 'get',
+            url: 'http://localhost:8000/admin/search',
+            params: {
+                type: id
+            }
+        }).then(function (res) {
+            res = res.data;
+            if (res.code === 200) {
+                // 创建结构
+                var htmlStr = template('newsDis', res);
+                // 添加到页面中
+                $('#title').after(htmlStr);
+                // data任意一项的type都是类名
+                $('#title').children('h3').html(res.data[0].type)
+            }
+
+        })
+    </script>
 </body>
 
 </html>
